@@ -8,7 +8,7 @@ class PetApiCommunication(object):
         self.url = url
         self.api_key = api_key
 
-    def create_and_return_a_new_pet(self, request):
+    def create_and_return_a_new_pet(self, request: dict):
         headers = {
             "api_key": self.api_key,
             "content-Type": "application/json",
@@ -26,6 +26,7 @@ class PetApiCommunication(object):
         if status_code != 200:
             print("Something is not OK while verifying pet with id " + str(pet_id) + " :")
             print("     " + str(status_code) + " " + str(response.reason))
+            return str(status_code) + " " + str(response.reason)
         response = json_loads(response.text)
         if expected_data is None:
             return response
@@ -47,7 +48,7 @@ class PetApiCommunication(object):
         self.verify_pet(pet_id, pet)
         return json_loads(response.text)
 
-    def delete_pet(self, pet_id):
+    def delete_pet(self, pet_id: int):
         url = self.url + str(pet_id)
         headers = {
             "api_key": self.api_key,
@@ -56,8 +57,7 @@ class PetApiCommunication(object):
         response = requests.delete(url, headers=headers)
         print("Deleting pet with id " + str(pet_id) + " :")
         print("     " + str(response.status_code) + " " + str(response.reason))
-        self.verify_pet(pet_id)
-        return response.status_code
+        return self.verify_pet(pet_id)
 
     @staticmethod
     def __verify_if_pet_has_correct_data__(response, expected_data: dict):
