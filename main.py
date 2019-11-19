@@ -1,9 +1,9 @@
 from petApiCommunication import PetApiCommunication
 
 
-def full_report():
-    separator = 80*"="
-    i = 0
+def run(chanfed_name):
+    separator = 80 * "="
+    i = 1
     step = "\n\nSTEP "
     print("START " + separator)
     try:
@@ -27,7 +27,7 @@ def full_report():
 
     print(step + str(i) + separator)
     i += 1
-    step_3 = api.update_pet_and_verify(pet_json["id"], "name", "bruno")
+    step_3 = api.update_pet_and_verify(pet_json["id"], "name", chanfed_name)
     print("Result: ")
     print("     " + str(step_3))
 
@@ -41,23 +41,18 @@ def full_report():
 
 url_test = "https://petstore.swagger.io/v2/pet/"
 key = "andrej"
-pet_json = {
-    "id": 896,
-    "category": {
-        "id": 148,
-        "name": "mammal"
-    },
-    "name": "pluto",
-    "photoUrls": [
-        "url_to_photo"
-    ],
-    "tags": [
-        {
-            "id": 421,
-            "name": "my_wife_s_dog"
-        }
-    ],
-    "status": "alive"
-}
+changed_name = "bruno"
+pet_json = {"id": 896,
+            "category": {
+                "id": 148,
+                "name": "mammal"
+            },
+            "name": "pluto",
+            "photoUrls": ["url_to_photo"],
+            "tags": [{
+                "id": 421,
+                "name": "my_wife_s_dog"}],
+            "status": "alive"
+            }
 
-full_report()
+run(changed_name)
